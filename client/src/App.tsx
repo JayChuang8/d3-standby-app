@@ -8,7 +8,7 @@ export const App = observer(() => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:9000/testAPI")
+    axios.get("https://d3-standby-server.vercel.app/testAPI")
       .then(response => setData(response.data))
   }, [])
   
