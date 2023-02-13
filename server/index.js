@@ -8,8 +8,13 @@ var cors = require("cors");
 const PORT = process.env.PORT || 9000;
 
 var testAPI = require("./api/testAPI");
+var sshConn = require("./api/sshConn");
 
 var app = express();
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 
 app.use(cors());
 app.use(logger('dev'));
@@ -19,6 +24,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use("/testAPI", testAPI);
+app.use("/sshConn", sshConn);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
 
 // error handler
 app.use(function(err, req, res, next) {
