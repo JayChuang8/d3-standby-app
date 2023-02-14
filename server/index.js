@@ -7,8 +7,8 @@ var cors = require("cors");
 
 const PORT = process.env.PORT || 9000;
 
-var testAPI = require("./api/testAPI");
 var sshConn = require("./api/sshConn");
+var testAPI = require("./api/testAPI");
 
 var app = express();
 
