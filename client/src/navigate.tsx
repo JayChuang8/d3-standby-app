@@ -11,8 +11,6 @@ export const App = observer(() => {
   const [sshData, setSshData] = useState([]);
   const [ipAddress, setIpAddress] = useState("");
   const moveTo = async (x: number, y: number) => {
-    const tx = await systems["system.Move"].executeTyped({ x, y });
-    await tx.wait();
   };
 
   const moveBy = async (deltaX: number, deltaY: number) => {
