@@ -10,6 +10,31 @@ export const App = observer(() => {
   const [testData, setTestData] = useState([]);
   const [sshData, setSshData] = useState([]);
   const [ipAddress, setIpAddress] = useState("");
+  const moveBy = async (direction: number, value: number) => {
+    //direction = 0 --> throttle
+      //value = -1.0 --> backward
+      //value = 1.0 --> forward
+    //direction = 1 --> turn
+      //value = -1.0 --> turn left
+      //value = 1.0 --> turn right
+    //send command through ssh
+    console.log("response gotten:", direction,value);
+
+  };
+  const listener = (e: KeyboardEvent) => {
+    if (e.key === "ArrowUp") {
+      moveBy(0, 1.0);
+    }
+    if (e.key === "ArrowDown") {
+      moveBy(0, -1.0);
+    }
+    if (e.key === "ArrowLeft") {
+      moveBy(1, -1.0);
+    }
+    if (e.key === "ArrowRight") {
+      moveBy(1, 1.0);
+    }
+  };
 
   return (
     <div className="App">
@@ -77,12 +102,25 @@ export const App = observer(() => {
           <Button
             variant="contained"
             onClick={async () => {
-              
+              //start listener thread through ssh
+              window.addEventListener("keydown", listener);
             }}
           >
-            Start ArrowKey navigation 
+            Start Arrow Key navigation 
           </Button>
         </div>
+        <div>
+          <Button
+            variant="contained"
+            onClick={async () => {
+              //stop both threads
+              //enable robot kickstand
+            }}
+          >
+            Stop Run
+          </Button>
+        </div>
+
       </header>
     </div>
   );
