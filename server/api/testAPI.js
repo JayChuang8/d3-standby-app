@@ -1,8 +1,11 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
-router.get('/', (request, result, next) => {
-    result.send('API is working properly here');
+router.get("/test", (request, result) => {
+  console.log("The params are", request.params);
+  result.send(
+    `API is working properly here with query param of ${request.query.id}`
+  );
 });
 
 module.exports = router;
