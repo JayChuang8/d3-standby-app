@@ -73,6 +73,16 @@ export const App = observer(() => {
             Download file using SCP
           </Button>
         </div>
+        <div>
+          <Button
+            variant="contained"
+            onClick={async () => {
+              
+            }}
+          >
+            Start ArrowKey navigation 
+          </Button>
+        </div>
       </header>
     </div>
   );
