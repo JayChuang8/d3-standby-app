@@ -18,7 +18,8 @@ export const App = observer(() => {
       //value = -1.0 --> turn left
       //value = 1.0 --> turn right
     //send command through ssh
-    console.log("response gotten:", direction,value);
+    var obj = '{"throttle": ' + direction + ', "turn": ' + value + ',"powerDrive": false}';
+    console.log("response gotten:", obj);
 
   };
   const listener = (e: KeyboardEvent) => {
@@ -115,6 +116,8 @@ export const App = observer(() => {
             onClick={async () => {
               //stop both threads
               //enable robot kickstand
+              window.removeEventListener("keydown", listener);
+
             }}
           >
             Stop Run
