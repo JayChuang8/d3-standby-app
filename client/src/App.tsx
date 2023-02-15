@@ -5,35 +5,45 @@ import { observer } from "mobx-react-lite";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { truncate } from "fs";
 
 export const App = observer(() => {
   const [testData, setTestData] = useState([]);
   const [sshData, setSshData] = useState([]);
   const [ipAddress, setIpAddress] = useState("");
-  const moveBy = async (direction: number, value: number) => {
-    //direction = 0 --> throttle
-      //value = -1.0 --> backward
-      //value = 1.0 --> forward
-    //direction = 1 --> turn
-      //value = -1.0 --> turn left
-      //value = 1.0 --> turn right
-    //send command through ssh
-    var obj = '{"throttle": ' + direction + ', "turn": ' + value + ',"powerDrive": false}';
+  // const moveBy = async (direction: number, value: number) => {
+  //   //direction = 0 --> throttle
+  //     //value = -1.0 --> backward
+  //     //value = 1.0 --> forward
+  //   //direction = 1 --> turn
+  //     //value = -1.0 --> turn left
+  //     //value = 1.0 --> turn right
+  //   //send command through ssh
+  //   var obj = '{"throttle": ' + direction + ', "turn": ' + value + ',"powerDrive": false}';
+  //   console.log("response gotten:", obj);
+  // };
+  const moveBy = async (direction: number) => {
+  // 0= start
+  // 1= forward
+  // 2= backward
+  // 3= left trun
+  // 4= right turn
+  // 5= stop
+    var obj = ''+direction;
     console.log("response gotten:", obj);
-
   };
   const listener = (e: KeyboardEvent) => {
     if (e.key === "ArrowUp") {
-      moveBy(0, 1.0);
+      moveBy(1);
     }
     if (e.key === "ArrowDown") {
-      moveBy(0, -1.0);
+      moveBy(2);
     }
     if (e.key === "ArrowLeft") {
-      moveBy(1, -1.0);
+      moveBy(3);
     }
     if (e.key === "ArrowRight") {
-      moveBy(1, 1.0);
+      moveBy(4);
     }
   };
 
@@ -69,15 +79,17 @@ export const App = observer(() => {
         </div>
         <div>
           <Button
-            disabled={!ipAddress}
+            // disabled={!ipAddress}
             variant="contained"
             onClick={async () => {
-              await axios
-                .get("https://d3-standby-server.vercel.app/ssh/stream", {
-                  params: { ip: ipAddress },
-                })
-                .then((response) => setSshData(response.data));
-              console.log("response gotten:", sshData);
+              // await axios
+              //   .get("https://d3-standby-server.vercel.app/ssh/stream", {
+              //     params: { ip: ipAddress },
+              //   })
+              //   .then((response) => setSshData(response.data));
+              // console.log("response gotten:", sshData);
+              window.addEventListener("keydown", listener);
+              moveBy(0);
             }}
           >
             Connect to d3 through SSH
@@ -99,7 +111,7 @@ export const App = observer(() => {
             Download file using SCP
           </Button>
         </div>
-        <div>
+        {/* <div>
           <Button
             variant="contained"
             onClick={async () => {
@@ -109,7 +121,7 @@ export const App = observer(() => {
           >
             Start Arrow Key navigation 
           </Button>
-        </div>
+        </div> */}
         <div>
           <Button
             variant="contained"
@@ -117,7 +129,7 @@ export const App = observer(() => {
               //stop both threads
               //enable robot kickstand
               window.removeEventListener("keydown", listener);
-
+              moveBy(5);
             }}
           >
             Stop Run
