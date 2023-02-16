@@ -90,8 +90,7 @@ export const App = observer(() => {
               //   })
               //   .then((response) => setSshData(response.data));
               // console.log("response gotten:", sshData);
-              window.addEventListener("keydown", listener);
-              moveBy(0);
+
             }}
           >
             Connect to d3 through SSH
@@ -114,17 +113,19 @@ export const App = observer(() => {
             Download file using SCP
           </Button>
         </div>
-        {/* <div>
+        <div>
           <Button
+            color="secondary"
             variant="contained"
             onClick={async () => {
               //start listener thread through ssh
               window.addEventListener("keydown", listener);
+              moveBy(0);
             }}
           >
-            Start Arrow Key navigation 
+            Start Run
           </Button>
-        </div> */}
+        </div>
         <div>
           <Button
             color="secondary"
