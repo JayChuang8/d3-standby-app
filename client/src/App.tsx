@@ -52,6 +52,7 @@ export const App = observer(() => {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <Button
+          color="secondary"
           variant="contained"
           onClick={async () => {
             await axios
@@ -80,6 +81,7 @@ export const App = observer(() => {
         <div>
           <Button
             // disabled={!ipAddress}
+            color="secondary"
             variant="contained"
             onClick={async () => {
               // await axios
@@ -98,6 +100,7 @@ export const App = observer(() => {
         <p>The ssh response is: {sshData}</p>
         <div>
           <Button
+            color="secondary"
             variant="contained"
             onClick={async () => {
               await axios.post(
@@ -124,6 +127,7 @@ export const App = observer(() => {
         </div> */}
         <div>
           <Button
+            color="secondary"
             variant="contained"
             onClick={async () => {
               //stop both threads
