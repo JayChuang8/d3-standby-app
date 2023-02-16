@@ -7,6 +7,9 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { truncate } from "fs";
 
+const DEVELOPMENT = "http://localhost:9000";
+const PRODUCTION = "https://d3-standby-server.vercel.app";
+
 export const App = observer(() => {
   const [testData, setTestData] = useState([]);
   const [sshData, setSshData] = useState([]);
@@ -23,13 +26,13 @@ export const App = observer(() => {
   //   console.log("response gotten:", obj);
   // };
   const moveBy = async (direction: number) => {
-  // 0= start
-  // 1= forward
-  // 2= backward
-  // 3= left trun
-  // 4= right turn
-  // 5= stop
-    var obj = ''+direction;
+    // 0= start
+    // 1= forward
+    // 2= backward
+    // 3= left trun
+    // 4= right turn
+    // 5= stop
+    var obj = "" + direction;
     console.log("response gotten:", obj);
   };
   const listener = (e: KeyboardEvent) => {
@@ -56,7 +59,7 @@ export const App = observer(() => {
           variant="contained"
           onClick={async () => {
             await axios
-              .get("https://d3-standby-server.vercel.app/testAPI/test", {
+              .get(`${PRODUCTION}/testAPI/test`, {
                 params: { id: 1 },
               })
               .then((response) => setTestData(response.data));
@@ -84,13 +87,12 @@ export const App = observer(() => {
             color="secondary"
             variant="contained"
             onClick={async () => {
-              // await axios
-              //   .get("https://d3-standby-server.vercel.app/ssh/stream", {
-              //     params: { ip: ipAddress },
-              //   })
-              //   .then((response) => setSshData(response.data));
-              // console.log("response gotten:", sshData);
-
+              await axios
+                .get(`${PRODUCTION}/ssh/stream`, {
+                  params: { ip: ipAddress },
+                })
+                .then((response) => setSshData(response.data));
+              console.log("response gotten:", sshData);
             }}
           >
             Connect to d3 through SSH
@@ -102,12 +104,9 @@ export const App = observer(() => {
             color="secondary"
             variant="contained"
             onClick={async () => {
-              await axios.post(
-                "https://d3-standby-server.vercel.app/ssh/download",
-                {
-                  params: { ip: ipAddress },
-                }
-              );
+              await axios.post(`${PRODUCTION}/ssh/download`, {
+                params: { ip: ipAddress },
+              });
             }}
           >
             Download file using SCP
@@ -140,7 +139,6 @@ export const App = observer(() => {
             Stop Run
           </Button>
         </div>
-
       </header>
     </div>
   );

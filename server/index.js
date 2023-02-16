@@ -7,6 +7,7 @@ var cors = require("cors");
 
 const PORT = process.env.PORT || 9000;
 
+// Require custom API's
 var ssh = require("./api/ssh");
 var testAPI = require("./api/testAPI");
 
@@ -23,6 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+// Use custom API's
 app.use("/testAPI", testAPI);
 app.use("/ssh", ssh);
 
