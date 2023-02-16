@@ -6,6 +6,9 @@ import axios from "axios";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
+const DEVELOPMENT = "http://localhost:9000";
+const PRODUCTION = "https://d3-standby-server.vercel.app";
+
 export const App = observer(() => {
   const [testData, setTestData] = useState([]);
   const [sshData, setSshData] = useState([]);
@@ -19,7 +22,7 @@ export const App = observer(() => {
           variant="contained"
           onClick={async () => {
             await axios
-              .get("https://d3-standby-server.vercel.app/testAPI/test", {
+              .get(`${PRODUCTION}/testAPI/test`, {
                 params: { id: 1 },
               })
               .then((response) => setTestData(response.data));
@@ -47,7 +50,7 @@ export const App = observer(() => {
             variant="contained"
             onClick={async () => {
               await axios
-                .get("https://d3-standby-server.vercel.app/ssh/stream", {
+                .get(`${PRODUCTION}/ssh/stream`, {
                   params: { ip: ipAddress },
                 })
                 .then((response) => setSshData(response.data));
@@ -62,12 +65,9 @@ export const App = observer(() => {
           <Button
             variant="contained"
             onClick={async () => {
-              await axios.post(
-                "https://d3-standby-server.vercel.app/ssh/download",
-                {
-                  params: { ip: ipAddress },
-                }
-              );
+              await axios.post(`${PRODUCTION}/ssh/download`, {
+                params: { ip: ipAddress },
+              });
             }}
           >
             Download file using SCP
