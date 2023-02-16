@@ -22,7 +22,7 @@ export const App = observer(() => {
           variant="contained"
           onClick={async () => {
             await axios
-              .get(`${PRODUCTION}/testAPI/test`, {
+              .get(`${DEVELOPMENT}/testAPI/test`, {
                 params: { id: 1 },
               })
               .then((response) => setTestData(response.data));
@@ -50,7 +50,7 @@ export const App = observer(() => {
             variant="contained"
             onClick={async () => {
               await axios
-                .get(`${PRODUCTION}/ssh/stream`, {
+                .get(`${DEVELOPMENT}/ssh/stream`, {
                   params: { ip: ipAddress },
                 })
                 .then((response) => setSshData(response.data));
@@ -65,7 +65,7 @@ export const App = observer(() => {
           <Button
             variant="contained"
             onClick={async () => {
-              await axios.post(`${PRODUCTION}/ssh/download`, {
+              await axios.post(`${DEVELOPMENT}/ssh/download`, {
                 params: { ip: ipAddress },
               });
             }}

@@ -34,13 +34,13 @@ router.get("/stream", (request, response) => {
                 stream.write("./SLAM.sh\n");
               }, 5000);
 
-              setTimeout(() => {
-                stream.write(`${Buffer.from([3])}\n`);
-              }, 10000);
+              // setTimeout(() => {
+              //   stream.write(`${Buffer.from([3])}\n`);
+              // }, 10000);
 
-              setTimeout(() => {
-                stream.write("exit\n");
-              }, 10000);
+              // setTimeout(() => {
+              //   stream.write("exit\n");
+              // }, 10000);
             } else {
               response.write(data); // send the data as the response
             }
@@ -73,6 +73,38 @@ router.post("/download", async (request, response) => {
   } catch (e) {
     console.log(e);
   }
+
+  const conn = new ScpClient();
+  conn
+    .connect({
+      host: "my-server",
+      username: "my-username",
+      password: "my-password",
+    })
+    .then(() => {
+      // Download the remote file to a local stream
+      const stream = createReadStream("remote-file.txt");
+      conn.get("/path/to/remote-file.txt", stream, (err) => {
+        if (err) {
+          console.error(err);
+          res.writeHead(500, { "Content-Type": "text/plain" });
+          res.end("Internal Server Error");
+        } else {
+          res.writeHead(200, { "Content-Type": "application/octet-stream" });
+          res.setHeader(
+            "Content-Disposition",
+            "attachment; filename=remote-file.txt"
+          );
+          stream.pipe(res);
+        }
+        conn.close();
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.writeHead(500, { "Content-Type": "text/plain" });
+      res.end("Internal Server Error");
+    });
 });
 
 module.exports = router;
