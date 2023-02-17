@@ -8,6 +8,7 @@ var cors = require("cors");
 const PORT = process.env.PORT || 9000;
 
 // Require custom API's
+var move = require("./api/move");
 var ssh = require("./api/ssh");
 var testAPI = require("./api/testAPI");
 
@@ -25,8 +26,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Use custom API's
-app.use("/testAPI", testAPI);
+app.use("/move", move);
 app.use("/ssh", ssh);
+app.use("/testAPI", testAPI);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
