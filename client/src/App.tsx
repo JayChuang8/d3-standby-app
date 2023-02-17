@@ -42,7 +42,7 @@ export const App = observer(() => {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <Button
+        {/* <Button
           color="secondary"
           variant="contained"
           onClick={async () => {
@@ -55,7 +55,7 @@ export const App = observer(() => {
           }}
         >
           Test API
-        </Button>
+        </Button> */}
         <p>{testData}</p>
         <div>
           <TextField
@@ -71,12 +71,12 @@ export const App = observer(() => {
         </div>
         <div>
           <Button
-            // disabled={!ipAddress}
+            disabled={!ipAddress}
             color="secondary"
             variant="contained"
             onClick={async () => {
               await axios
-                .get(`${DEVELOPMENT}/ssh/stream`, {
+                .get(`${PRODUCTION}/ssh/stream`, {
                   params: { ip: ipAddress },
                 })
                 .then((response) => setSshData(response.data));
@@ -87,7 +87,7 @@ export const App = observer(() => {
           </Button>
         </div>
         <p>The ssh response is: {sshData}</p>
-        <div>
+        {/* <div>
           <Button
             color="secondary"
             variant="contained"
@@ -99,7 +99,7 @@ export const App = observer(() => {
           >
             Download file using SCP
           </Button>
-        </div>
+        </div> */}
         <div>
           <Button
             color="secondary"
