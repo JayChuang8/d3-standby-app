@@ -34,13 +34,13 @@ router.get("/stream", (request, response) => {
                 stream.write("./SLAM.sh\n");
               }, 5000);
 
-              setTimeout(() => {
-                stream.write(`${Buffer.from([3])}\n`);
-              }, 10000);
+              // setTimeout(() => {
+              //   stream.write(`${Buffer.from([3])}\n`);
+              // }, 10000);
 
-              setTimeout(() => {
-                stream.write("exit\n");
-              }, 10000);
+              // setTimeout(() => {
+              //   stream.write("exit\n");
+              // }, 10000);
             } else {
               response.write(data); // send the data as the response
             }

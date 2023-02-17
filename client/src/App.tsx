@@ -14,39 +14,27 @@ export const App = observer(() => {
   const [testData, setTestData] = useState([]);
   const [sshData, setSshData] = useState([]);
   const [ipAddress, setIpAddress] = useState("");
-  // const moveBy = async (direction: number, value: number) => {
-  //   //direction = 0 --> throttle
-  //     //value = -1.0 --> backward
-  //     //value = 1.0 --> forward
-  //   //direction = 1 --> turn
-  //     //value = -1.0 --> turn left
-  //     //value = 1.0 --> turn right
-  //   //send command through ssh
-  //   var obj = '{"throttle": ' + direction + ', "turn": ' + value + ',"powerDrive": false}';
-  //   console.log("response gotten:", obj);
-  // };
-  const moveBy = async (direction: number) => {
-    // 0= start
-    // 1= forward
-    // 2= backward
-    // 3= left trun
-    // 4= right turn
-    // 5= stop
-    var obj = "" + direction;
-    console.log("response gotten:", obj);
-  };
-  const listener = (e: KeyboardEvent) => {
+
+  const listener = async (e: KeyboardEvent) => {
     if (e.key === "ArrowUp") {
-      moveBy(1);
+      await axios.get(`${PRODUCTION}/move`, {
+        params: { id: 0x01 },
+      });
     }
     if (e.key === "ArrowDown") {
-      moveBy(2);
+      await axios.get(`${PRODUCTION}/move`, {
+        params: { id: 0x02 },
+      });
     }
     if (e.key === "ArrowLeft") {
-      moveBy(3);
+      await axios.get(`${PRODUCTION}/move`, {
+        params: { id: 0x03 },
+      });
     }
     if (e.key === "ArrowRight") {
-      moveBy(4);
+      await axios.get(`${PRODUCTION}/move`, {
+        params: { id: 0x04 },
+      });
     }
   };
 
@@ -119,7 +107,7 @@ export const App = observer(() => {
             onClick={async () => {
               //start listener thread through ssh
               window.addEventListener("keydown", listener);
-              moveBy(0);
+              await axios.post(`${PRODUCTION}/move/start`, { ip: ipAddress });
             }}
           >
             Start Run
@@ -133,7 +121,7 @@ export const App = observer(() => {
               //stop both threads
               //enable robot kickstand
               window.removeEventListener("keydown", listener);
-              moveBy(5);
+              await axios.post(`${PRODUCTION}/move/stop`);
             }}
           >
             Stop Run
