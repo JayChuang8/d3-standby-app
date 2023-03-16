@@ -1,7 +1,9 @@
 const express = require("express");
 const net = require("net");
+var cors = require("cors");
 
 const router = express.Router();
+router.use(cors());
 var socket;
 
 router.post("/start", (request) => {
