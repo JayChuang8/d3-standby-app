@@ -5,34 +5,33 @@ import { observer } from "mobx-react-lite";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { truncate } from "fs";
 
 const DEVELOPMENT = "http://localhost:9000";
 const PRODUCTION = "https://d3-standby-server.vercel.app";
+const HOST = PRODUCTION;
 
 export const App = observer(() => {
-  const [testData, setTestData] = useState([]);
   const [sshData, setSshData] = useState([]);
   const [ipAddress, setIpAddress] = useState("");
 
   const listener = async (e: KeyboardEvent) => {
     if (e.key === "ArrowUp") {
-      await axios.get(`${PRODUCTION}/move`, {
+      await axios.get(`${HOST}/move`, {
         params: { id: 0x01 },
       });
     }
     if (e.key === "ArrowDown") {
-      await axios.get(`${PRODUCTION}/move`, {
+      await axios.get(`${HOST}/move`, {
         params: { id: 0x02 },
       });
     }
     if (e.key === "ArrowLeft") {
-      await axios.get(`${PRODUCTION}/move`, {
+      await axios.get(`${HOST}/move`, {
         params: { id: 0x03 },
       });
     }
     if (e.key === "ArrowRight") {
-      await axios.get(`${PRODUCTION}/move`, {
+      await axios.get(`${HOST}/move`, {
         params: { id: 0x04 },
       });
     }
@@ -42,21 +41,6 @@ export const App = observer(() => {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        {/* <Button
-          color="secondary"
-          variant="contained"
-          onClick={async () => {
-            await axios
-              .get(`${DEVELOPMENT}/testAPI/test`, {
-                params: { id: 1 },
-              })
-              .then((response) => setTestData(response.data));
-            console.log("response gotten:", testData);
-          }}
-        >
-          Test API
-        </Button> */}
-        <p>{testData}</p>
         <div>
           <TextField
             label="IP Address of d3 Robot"
@@ -76,7 +60,7 @@ export const App = observer(() => {
             variant="contained"
             onClick={async () => {
               await axios
-                .get(`${PRODUCTION}/ssh/stream`, {
+                .get(`${HOST}/ssh/stream`, {
                   params: { ip: ipAddress },
                 })
                 .then((response) => setSshData(response.data));
@@ -86,13 +70,13 @@ export const App = observer(() => {
             Connect to d3 through SSH
           </Button>
         </div>
-        <p>The ssh response is: {sshData}</p>
+        {/* <p>The ssh response is: {sshData}</p> */}
         {/* <div>
           <Button
             color="secondary"
             variant="contained"
             onClick={async () => {
-              await axios.post(`${DEVELOPMENT}/ssh/download`, {
+              await axios.post(`${HOST}/ssh/download`, {
                 params: { ip: ipAddress },
               });
             }}
@@ -107,7 +91,7 @@ export const App = observer(() => {
             onClick={async () => {
               //start listener thread through ssh
               window.addEventListener("keydown", listener);
-              await axios.post(`${PRODUCTION}/move/start`, { ip: ipAddress });
+              await axios.post(`${HOST}/move/start`, { ip: ipAddress });
             }}
           >
             Start Run
@@ -121,7 +105,7 @@ export const App = observer(() => {
               //stop both threads
               //enable robot kickstand
               window.removeEventListener("keydown", listener);
-              await axios.post(`${PRODUCTION}/move/stop`);
+              await axios.post(`${HOST}/move/stop`);
             }}
           >
             Stop Run
