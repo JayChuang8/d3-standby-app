@@ -70,20 +70,6 @@ export const App = observer(() => {
             Connect to d3 through SSH
           </Button>
         </div>
-        {/* <p>The ssh response is: {sshData}</p> */}
-        {/* <div>
-          <Button
-            color="secondary"
-            variant="contained"
-            onClick={async () => {
-              await axios.post(`${HOST}/ssh/download`, {
-                params: { ip: ipAddress },
-              });
-            }}
-          >
-            Download file using SCP
-          </Button>
-        </div> */}
         <div>
           <Button
             color="secondary"
@@ -111,7 +97,7 @@ export const App = observer(() => {
             Stop Run
           </Button>
         </div>
-        <div>
+        {/* <div>
           <Button
             color="secondary"
             variant="contained"
@@ -121,7 +107,7 @@ export const App = observer(() => {
           >
             Terminate Script on Robot
           </Button>
-        </div>
+        </div> */}
       </header>
     </div>
   );
