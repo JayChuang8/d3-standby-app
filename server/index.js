@@ -7,11 +7,6 @@ var cors = require("cors");
 
 const PORT = process.env.PORT || 9000;
 
-// Require custom API's
-var move = require("./api/move");
-var ssh = require("./api/ssh");
-var testAPI = require("./api/testAPI");
-
 var app = express();
 
 // view engine setup
@@ -24,6 +19,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+// Require custom API's
+var move = require("./api/move");
+var ssh = require("./api/ssh");
+var testAPI = require("./api/testAPI");
 
 // Use custom API's
 app.use("/move", move);
