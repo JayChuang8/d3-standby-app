@@ -35,22 +35,22 @@ router.get("/stream", cors(), (request, response) => {
               // Run bash script on robot which start listening on ports
               setTimeout(() => {
                 stream.write("./SLAM.sh\n");
-              }, 3000);
+              }, 2000);
 
               // Exit sudo and ssh
               setTimeout(() => {
                 stream.write("exit\n");
-              }, 3000);
+              }, 4000);
               setTimeout(() => {
                 stream.write("exit\n");
-              }, 3000);
+              }, 4500);
 
               // Close ssh connection
               setTimeout(() => {
                 response.write("Successfully started running server on robot");
                 conn.end();
                 response.end(); // end the response and terminate the request
-              }, 6000);
+              }, 5000);
             } else {
               response.write(data); // send the data as the response
             }
