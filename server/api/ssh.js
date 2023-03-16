@@ -1,4 +1,5 @@
 const express = require("express");
+var cors = require("cors");
 const { Client: SshClient } = require("ssh2");
 const { Client: ScpClient } = require("node-scp");
 
@@ -7,7 +8,7 @@ const router = express.Router();
 const USERNAME = "double";
 const PASSWORD = "15-003432";
 
-router.get("/stream", (request, response) => {
+router.get("/stream", cors(), (request, response) => {
   const conn = new SshClient();
   conn
     .on("ready", () => {
