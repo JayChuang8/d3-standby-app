@@ -30,27 +30,27 @@ router.get("/stream", cors(), (request, response) => {
             if (data.toString().includes("[sudo] password for double:")) {
               setTimeout(() => {
                 stream.write(`${PASSWORD}\n`);
-              }, 1000);
+              }, 500);
 
               // Run bash script on robot which start listening on ports
               setTimeout(() => {
                 stream.write("./SLAM.sh\n");
-              }, 2000);
+              }, 1000);
 
               // Exit sudo and ssh
               setTimeout(() => {
                 stream.write("exit\n");
-              }, 4000);
+              }, 2000);
               setTimeout(() => {
                 stream.write("exit\n");
-              }, 4500);
+              }, 2500);
 
               // Close ssh connection
               setTimeout(() => {
                 response.write("Successfully started running server on robot");
                 conn.end();
                 response.end(); // end the response and terminate the request
-              }, 5000);
+              }, 3000);
             } else {
               response.write(data); // send the data as the response
             }
