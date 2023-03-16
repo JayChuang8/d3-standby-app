@@ -20,6 +20,11 @@ router.post("/stop", () => {
   socket.write(Buffer.from([0x05]));
 });
 
+router.post("/terminate", () => {
+  // Send a byte to the server
+  socket.write(Buffer.from([0x06]));
+});
+
 router.get("/", (request, response) => {
   console.log("The id is: ", request.query.id);
 

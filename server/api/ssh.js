@@ -48,8 +48,8 @@ router.get("/stream", cors(), (request, response) => {
               // Close ssh connection
               setTimeout(() => {
                 response.write("Successfully started running server on robot");
-                conn.end();
-                response.end(); // end the response and terminate the request
+                // conn.end();
+                // response.end(); // end the response and terminate the request
               }, 3000);
             } else {
               response.write(data); // send the data as the response

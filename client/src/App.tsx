@@ -111,6 +111,17 @@ export const App = observer(() => {
             Stop Run
           </Button>
         </div>
+        <div>
+          <Button
+            color="secondary"
+            variant="contained"
+            onClick={async () => {
+              await axios.post(`${HOST}/move/terminate`);
+            }}
+          >
+            Terminate Script on Robot
+          </Button>
+        </div>
       </header>
     </div>
   );
