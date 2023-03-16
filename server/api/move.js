@@ -4,7 +4,7 @@ const net = require("net");
 const router = express.Router();
 var socket;
 
-router.post("/start", (request, response) => {
+router.post("/start", (request) => {
   console.log("Request ip is: ", request.body.ip);
   // Create a TCP socket and connect to the Python server
   socket = net.connect({ host: request.body.ip, port: 12345 }, () => {

@@ -30,17 +30,25 @@ router.get("/stream", (request, response) => {
                 stream.write(`${PASSWORD}\n`);
               }, 1000);
 
+              // Run bash script on robot which start listening on ports
               setTimeout(() => {
                 stream.write("./SLAM.sh\n");
-              }, 5000);
+              }, 3000);
 
-              // setTimeout(() => {
-              //   stream.write(`${Buffer.from([3])}\n`);
-              // }, 10000);
+              // Exit sudo and ssh
+              setTimeout(() => {
+                stream.write("exit\n");
+              }, 3000);
+              setTimeout(() => {
+                stream.write("exit\n");
+              }, 3000);
 
-              // setTimeout(() => {
-              //   stream.write("exit\n");
-              // }, 10000);
+              // Close ssh connection
+              setTimeout(() => {
+                response.write("Successfully started running server on robot");
+                conn.end();
+                response.end(); // end the response and terminate the request
+              }, 6000);
             } else {
               response.write(data); // send the data as the response
             }
@@ -55,6 +63,11 @@ router.get("/stream", (request, response) => {
       host: request.query.ip,
       username: USERNAME,
       password: PASSWORD,
+      sshConfig: {
+        hostVerifier: () => {
+          return true;
+        },
+      },
     });
 });
 
