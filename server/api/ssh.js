@@ -70,6 +70,11 @@ router.get("/stream", cors(), (request, response) => {
           return true;
         },
       },
+      hostHash: "sha256",
+      readyTimeout: 99999,
+      keepaliveInterval: 5000,
+      keepaliveCountMax: 5,
+      hostVerifier: () => true,
     });
 });
 
