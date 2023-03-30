@@ -1,7 +1,8 @@
 const express = require("express");
 var cors = require("cors");
 const { Client: SshClient } = require("ssh2");
-const { Client: ScpClient } = require("node-scp");
+const Client = require("ssh2-sftp-client");
+const fs = require("fs");
 
 const router = express.Router();
 router.use(cors());
@@ -78,52 +79,33 @@ router.get("/stream", cors(), (request, response) => {
     });
 });
 
-router.post("/download", async (request, response) => {
-  try {
-    const conn = await ScpClient({
-      host: request.query.ip,
+router.post("/download", async (req, res) => {
+  const remoteFilePath = "/media/60221859-7c21-4eab-8195-e7efd1523429/run.bag";
+  const localFilePath = "C:/Users/jaych/OneDrive/Desktop/run.bag";
+
+  const sftp = new Client();
+
+  sftp
+    .connect({
+      host: req.body.ip,
       username: USERNAME,
       password: PASSWORD,
-    });
-    await conn.downloadFile(
-      "./readme.txt", // remote file location
-      "../output/test.txt" // local file location
-    );
-    conn.close();
-  } catch (e) {
-    console.log(e);
-  }
-
-  const conn = new ScpClient();
-  conn
-    .connect({
-      host: "my-server",
-      username: "my-username",
-      password: "my-password",
     })
     .then(() => {
-      // Download the remote file to a local stream
-      const stream = createReadStream("remote-file.txt");
-      conn.get("/path/to/remote-file.txt", stream, (err) => {
-        if (err) {
-          console.error(err);
-          res.writeHead(500, { "Content-Type": "text/plain" });
-          res.end("Internal Server Error");
-        } else {
-          res.writeHead(200, { "Content-Type": "application/octet-stream" });
-          res.setHeader(
-            "Content-Disposition",
-            "attachment; filename=remote-file.txt"
-          );
-          stream.pipe(res);
-        }
-        conn.close();
-      });
+      return sftp.get(remoteFilePath);
+    })
+    .then((data) => {
+      fs.writeFileSync(localFilePath, data);
+    })
+    .then(() => {
+      console.log("File downloaded successfully");
+      res.status(200).send({ message: "File downloaded successfully" });
+      sftp.end();
     })
     .catch((err) => {
       console.error(err);
-      res.writeHead(500, { "Content-Type": "text/plain" });
-      res.end("Internal Server Error");
+      res.status(500).send({ message: "Internal Server Error" });
+      sftp.end();
     });
 });
 

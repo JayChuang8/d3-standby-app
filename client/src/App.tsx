@@ -97,6 +97,18 @@ export const App = observer(() => {
             Stop Run
           </Button>
         </div>
+        <div>
+          <Button
+            disabled={!ipAddress}
+            color="secondary"
+            variant="contained"
+            onClick={async () => {
+              await axios.post(`${HOST}/ssh/download`, { ip: ipAddress });
+            }}
+          >
+            Download
+          </Button>
+        </div>
         {/* <div>
           <Button
             color="secondary"
