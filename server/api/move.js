@@ -6,18 +6,30 @@ const router = express.Router();
 router.use(cors());
 var socket;
 
-router.post("/start", (request) => {
+router.post("/start", (request, response) => {
   console.log("Request ip is: ", request.body.ip);
   // Create a TCP socket and connect to the Python server
   socket = net.connect({ host: request.body.ip, port: 12345 }, () => {
     console.log("Connected to server");
+    response.send("Connected to server");
+    response.end();
   });
+
+  socket.on("error", (error) => {
+    console.error("Socket connection error:", error);
+    response.status(500).send("Socket connection failed");
+    response.end();
+  });
+
   socket.write(Buffer.from([0x00]));
 });
 
-router.post("/stop", () => {
+router.post("/stop", (request, response) => {
   // Send a byte to the server
   socket.write(Buffer.from([0x05]));
+
+  response.status(200).send({ message: "Stopped running successfully" });
+  response.end();
 });
 
 router.post("/terminate", () => {

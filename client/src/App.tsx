@@ -18,6 +18,7 @@ export const App = observer(() => {
   const [ipAddress, setIpAddress] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [kickstandActivated, setKickstandActivated] = useState(false);
 
   const listener = async (e: KeyboardEvent) => {
     if (e.key === "ArrowUp") {
@@ -45,7 +46,14 @@ export const App = observer(() => {
   return (
     <div className="App">
       <BackgroundParticles />
-      <header className="App-header">
+      <header
+        className="App-header"
+        style={{
+          backgroundImage: kickstandActivated
+            ? "linear-gradient(to bottom, #144f06, #80d57c)"
+            : "linear-gradient(to bottom, #040226, #7c91d5)",
+        }}
+      >
         {isLoading && <RingLoader color={"#000000"} loading={isLoading} />}
         {!isLoading && (
           <>
@@ -73,17 +81,16 @@ export const App = observer(() => {
                     onClick={async () => {
                       setIsLoading(true);
                       await axios
-                        .get(`${HOST}/ssh/teststream`, {
+                        .get(`${HOST}/ssh/stream`, {
                           params: { ip: ipAddress },
                         })
                         .then(() => {
-                          setIsLoading(false);
                           setIsConnected(true);
                         })
                         .catch(() => {
                           setIsConnected(false);
-                          setIsLoading(false);
                         });
+                      setIsLoading(false);
                       setOpenModal(true);
                     }}
                   >
@@ -101,7 +108,16 @@ export const App = observer(() => {
                     onClick={async () => {
                       //start listener thread through ssh
                       window.addEventListener("keydown", listener);
-                      await axios.post(`${HOST}/move/start`, { ip: ipAddress });
+                      setIsLoading(true);
+                      await axios
+                        .post(`${HOST}/move/start`, { ip: ipAddress })
+                        .then(() => {
+                          setKickstandActivated(true);
+                        })
+                        .catch(() => {
+                          setKickstandActivated(false);
+                        });
+                      setIsLoading(false);
                     }}
                   >
                     Start Run
@@ -115,7 +131,9 @@ export const App = observer(() => {
                       //stop both threads
                       //enable robot kickstand
                       window.removeEventListener("keydown", listener);
-                      await axios.post(`${HOST}/move/stop`);
+                      await axios.post(`${HOST}/move/stop`).then(() => {
+                        setKickstandActivated(false);
+                      });
                     }}
                   >
                     Stop Run
@@ -129,7 +147,7 @@ export const App = observer(() => {
                     onClick={async () => {
                       setIsLoading(true);
                       await axios
-                        .post(`${HOST}/ssh/testdownload`, {
+                        .post(`${HOST}/ssh/download`, {
                           ip: ipAddress,
                         })
                         .then(() => {

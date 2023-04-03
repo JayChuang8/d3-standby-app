@@ -65,7 +65,7 @@ router.get("/stream", cors(), (request, response) => {
           });
       });
     })
-    .on("error", (err) => {
+    .on("error", () => {
       response.status(500).send({ message: "Request timed out or failed." });
       response.end();
       conn.end();
