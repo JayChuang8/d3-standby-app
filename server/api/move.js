@@ -9,7 +9,7 @@ var socket;
 router.post("/start", (request, response) => {
   console.log("Request ip is: ", request.body.ip);
   // Create a TCP socket and connect to the Python server
-  socket = net.connect({ host: request.body.ip, port: 12345 }, () => {
+  socket = net.connect({ host: request.body.ip, port: 8899 }, () => {
     console.log("Connected to server");
     response.send("Connected to server");
     response.end();

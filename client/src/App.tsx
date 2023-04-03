@@ -113,6 +113,7 @@ export const App = observer(() => {
                         .post(`${HOST}/move/start`, { ip: ipAddress })
                         .then(() => {
                           setKickstandActivated(true);
+                          setOpenModal(false);
                         })
                         .catch(() => {
                           setKickstandActivated(false);
