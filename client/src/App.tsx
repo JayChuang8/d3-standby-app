@@ -59,7 +59,7 @@ export const App = observer(() => {
           <>
             <ModalDialog open={openModal} isConnected={isConnected} />
             <img src={logo} className="App-logo" alt="logo" />
-            {!isConnected && (
+            {/* {!isConnected && (
               <>
                 <div>
                   <TextField
@@ -98,8 +98,8 @@ export const App = observer(() => {
                   </Button>
                 </div>
               </>
-            )}
-            {isConnected && (
+            )} */}
+            {/* {isConnected && (
               <>
                 <div>
                   <Button
@@ -165,7 +165,7 @@ export const App = observer(() => {
                   </Button>
                 </div>
               </>
-            )}
+            )} */}
           </>
         )}
       </header>
